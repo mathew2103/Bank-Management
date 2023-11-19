@@ -1,10 +1,11 @@
 import mysql.connector as connector
 
+
+dbName = "project"
 credentials = {
     "user": "root",
     "host": "localhost",
     "password": "password",
-    "database": "project",
 }
 
 tables = {
@@ -21,15 +22,26 @@ def initialize():
             user=credentials["user"],
             host=credentials["host"],
             password=credentials["password"],
-            database=credentials["database"],
             autocommit=True,
         )
-        print("Connected to Database")
+        print("Connected to SQL Successfully")
     except connector.Error as err:
         print("Error:", err)
         return None
 
     cur = db.cursor()
+
+    cur.execute("SHOW DATABASES;")
+    db_data = cur.fetchall()
+    for d in db_data:
+        if d[0] == dbName:
+            break
+    else:
+        cur.execute("CREATE DATABASE project")
+        print("Created project database")
+    cur.execute("USE project;")
+    print("Connected to database!")
+
     cur.execute("SHOW TABLES;")
     tables_data = cur.fetchall()
     tables_list = []
