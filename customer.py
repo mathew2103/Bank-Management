@@ -30,7 +30,7 @@ def createAcc(cur, db):
 
 def login(cur, db):
     print("-" * 20 + "LOGIN" + "-" * 20)
-    acc = int(input("Enter account number: "))
+    acc = int(input("Enter account number: ") or 0)
     password = input("Enter password: ")
     cur.execute(
         f'Select accno, name,balance,closed from accounts where accNo={acc} and password="{password}"'
@@ -68,14 +68,14 @@ def login(cur, db):
             print("Re-entered password did not match!")
 
     def transfer():
-        accNo2 = int(input("Enter recipient account number: "))
+        accNo2 = int(input("Enter recipient account number: ") or 0)
+
         if accNo2 == acc:
             print("You cannot send money to yourself!")
             menu()
             return
 
         cur.execute(f"SELECT name, closed FROM accounts where accNo={accNo2}")
-
         rec = cur.fetchone()
         if rec == None:
             print("Invalid account number!\n")

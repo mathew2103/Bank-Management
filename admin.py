@@ -4,7 +4,7 @@ from init import check_closed
 
 def updatecustdetails(cur, db):
     print("-" * 20 + "UPDATE ACCOUNT" + "-" * 20)
-    accno = int(input("Enter Account Number: "))
+    accno = int(input("Enter Account Number: ") or 0)
     cur.execute(f"SELECT * FROM accounts WHERE accno={accno}")
     x = cur.fetchone()
     print(
@@ -20,7 +20,7 @@ def updatecustdetails(cur, db):
             ],
         )
     )
-    y = int(input("Menu- \n1. Name \n2. Security Question\nEnter:"))
+    y = int(input("Menu- \n1. Name \n2. Security Question\nEnter:") or 0)
     if y == 1:
         z = input("Enter New Name: ")
         cur.execute(f"UPDATE accounts SET name='{z}' WHERE accno={accno}")
@@ -31,6 +31,8 @@ def updatecustdetails(cur, db):
             f"UPDATE accounts SET secQues='{a}', secAns='{b}' WHERE accno={accno}"
         )
         print("Your security Question and Answer has been changed")
+    else:
+        revert_transaction
     cur.execute(f"SELECT * FROM accounts WHERE accno={accno}")
     c = cur.fetchone()
     print(
@@ -80,12 +82,15 @@ def view_all_transactions(cur, db):
 
 def searchcustomer(cur, db):
     print("-" * 20 + "SEARCH CUSTOMERS" + "-" * 20)
-    c = int(input("enter account number"))
+    c = int(input("Enter account number: ") or 0)
     cur.execute(f"SELECT * from ACCOUNTS where accNo={c}")
-    k = cur.fetchone()
+    acc = cur.fetchone()
+    if acc == None:
+        print("No account found")
+        return
     print(
         tabulate(
-            [k],
+            [acc],
             [
                 "Account Number",
                 "Name",
@@ -106,6 +111,10 @@ def revert_transaction(cur, db):
     i = int(input("Enter transaction id: ") or 0)
     cur.execute(f"SELECT * from transactions where id={i}")
     tr = cur.fetchone()
+
+    if tr == None:
+        print("No transaction found")
+        return
     print(tabulate([tr], ["ID", "Sender", "Receiver", "At", "Amount"]))
 
     amt = tr[4]
