@@ -112,11 +112,11 @@ def login(cur, db):
 
         for i in tr:
             if i[0] == acc:
-                l.append([i[2], i[1], f"- {i[3]}"])
+                l.append([i[0], i[3], i[2], f"- {i[4]}"])
             else:
-                l.append([i[2], i[0], f"+ {i[3]}"])
+                l.append([i[0], i[3], i[1], f"+ {i[4]}"])
 
-        print(tabulate(l, ["AT", "FROM/TO", "Amount"]))
+        print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"]))
 
     def menu():
         i = int(

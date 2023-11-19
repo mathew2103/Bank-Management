@@ -1,4 +1,5 @@
 from tabulate import tabulate
+from init import check_closed
 
 
 def updatecustdetails(cur, db):
@@ -69,11 +70,11 @@ def closeaccount(cur, db):
     return
 
 
-def checktransations(cur, db):
+def view_all_transactions(cur, db):
     print("-" * 20 + "CHECK TRANSACTIONS" + "-" * 20)
     cur.execute(f"SELECT * from transactions order by at desc")
     b = cur.fetchall()
-    print(tabulate(b, ["Sender Acc", "Receiver Acc", "At", "Amount"]))
+    print(tabulate(b, ["ID", "Sender Acc", "Receiver Acc", "At", "Amount"]))
     return
 
 
@@ -95,3 +96,33 @@ def searchcustomer(cur, db):
             ],
         )
     )
+
+
+def revert_transaction(cur, db):
+    print("-" * 20 + "REVERT TRANSACTION" + "-" * 20)
+    # cur.execute(f"SELECT * from transactions order by at desc")
+    # b = cur.fetchall()
+    # print(tabulate(b, ["ID", "Sender Acc", "Receiver Acc", "At", "Amount"]))
+    i = int(input("Enter transaction id: ") or 0)
+    cur.execute(f"SELECT * from transactions where id={i}")
+    tr = cur.fetchone()
+    print(tabulate([tr], ["ID", "Sender", "Receiver", "At", "Amount"]))
+
+    amt = tr[4]
+    sender = tr[1]
+    receiver = tr[2]
+
+    if check_closed(sender, cur, db):
+        print(f"Account number {sender} has been closed. Can't revert transaction!")
+        return
+    elif check_closed(receiver, cur, db):
+        print(f"Account number {receiver} has been closed. Can't revert transaction!")
+        return
+
+    if input("Do you want to revert this transaction? (Yes/No)").lower() == "yes":
+        cur.execute(f"UPDATE accounts SET balance=balance-{amt} where accNo={receiver}")
+        cur.execute(f"UPDATE accounts SET balance=balance+{amt} where accNo={sender}")
+        cur.execute(f"DELETE from transactions where id={i}")
+        # ! NOTIFY
+
+        print("Transaction Reverted!")
