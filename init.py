@@ -11,6 +11,7 @@ credentials = {
 tables = {
     "accounts": "CREATE TABLE accounts (accNo int primary key AUTO_INCREMENT, name varchar(50), balance decimal(11,2), password varchar(50),secQues varchar(50), secAns varchar(50), closed boolean default false);",
     "transactions": "CREATE TABLE transactions (id int AUTO_INCREMENT PRIMARY KEY, sender int, foreign key (sender) references accounts(accNo), receiver int, foreign key (receiver) references accounts(accNo), at timestamp, amount decimal(11,2));",
+    "notifications": "CREATE TABLE notifications (id int AUTO_INCREMENT primary key, accNo int, foreign key (accNo) references accounts(accNo), content varchar(50))",
 }
 
 # NOTIFICATIONS

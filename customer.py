@@ -45,6 +45,8 @@ def login(cur, db):
         print("This account has been closed!")
         return
 
+    cur.execute(f"Select id,content from notifications where accNo={acc} and checked=0")
+    notifs = cur.fetchall() or []
     print(
         tabulate(
             [list(x)], ["Account Number", "Account Holder", "Balance"], numalign="left"
@@ -52,6 +54,13 @@ def login(cur, db):
     )
 
     def changePass():
+        cur.execute(f"SELECT secQues, secAns from accounts where accno={acc}")
+        t = cur.fetchone()
+        print(t[0])
+        secans = input("Enter your security Answer")
+        if secans != t[1]:
+            print("incorrect security password")
+            return
         oldPass = input("Enter old password: ")
         newPass = input("Enter new password: ")
         if newPass == "":
@@ -95,7 +104,10 @@ def login(cur, db):
         cur.execute(f"UPDATE accounts SET balance=balance-{m} where accNo={acc}")
         cur.execute(f"UPDATE accounts SET balance=balance+{m} where accNo={accNo2}")
         cur.execute(
-            f"INSERT into transactions values ({acc}, {accNo2}, '{datetime.now()}', {m})"
+            f"INSERT into transactions (sender, receiver, at, amount) values ({acc}, {accNo2}, '{datetime.now()}', {m})"
+        )
+        cur.execute(
+            f"INSERT INTO notifications (accNo, content) values ({accNo2}, 'Received {m} from {x[1]}')"
         )
         print(
             f"Successfully transferred {m} to {rec[0]}.\nCurrent Balance: {float(x[2])-m}"
@@ -118,19 +130,30 @@ def login(cur, db):
 
         print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"]))
 
+    def checkNotifs():
+        print(tabulate(notifs, ["Notification\nID", "Content"]))
+        notifIds = [0]
+        for i in notifs:
+            notifIds.append(i[0])
+
+        cur.execute(f"UPDATE notifications set checked=1 where id in {tuple(notifIds)}")
+        notifs = []
+
     def menu():
         i = int(
             input(
-                "\n\nMenu:\n1. Change Password\n2. Transfer Money\n3. Check Transactions\n(To go back to previous menu press enter)\nEnter option: "
+                f"\n\nMenu:\n1. Show notifications ({len(notifs)})\n2. Change Password\n3. Transfer Money\n4. Check Transactions\n(To go back to previous menu press enter)\nEnter option: "
             )
             or 0
         )
 
         if i == 1:
-            changePass()
+            checkNotifs()
         elif i == 2:
-            transfer()
+            changePass()
         elif i == 3:
+            transfer()
+        elif i == 4:
             checkTransations()
         else:
             return
