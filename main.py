@@ -3,6 +3,7 @@ from customer import *
 from admin import *
 from time import sleep
 
+adminPass = "bank!"
 cur, db = initialize()
 
 
@@ -24,6 +25,13 @@ def custPanel():
 
 
 def adminPanel():
+    print("-" * 20 + "ADMIN LOGIN" + "-" * 20)
+    adminLogin = input("Enter admin password: ")
+
+    if adminLogin != adminPass:
+        print("Wrong password!")
+        return
+
     print("-" * 20 + "ADMIN PANEL" + "-" * 20)
     aMenu = int(
         input(
