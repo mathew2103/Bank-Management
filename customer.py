@@ -47,6 +47,7 @@ def login(cur, db):
 
     cur.execute(f"Select id,content from notifications where accNo={acc} and checked=0")
     notifs = cur.fetchall() or []
+    print(notifs)
     print(
         tabulate(
             [list(x)], ["Account Number", "Account Holder", "Balance"], numalign="left"
@@ -131,13 +132,13 @@ def login(cur, db):
         print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"]))
 
     def checkNotifs():
+        # notifs
         print(tabulate(notifs, ["Notification\nID", "Content"]))
         notifIds = [0]
         for i in notifs:
             notifIds.append(i[0])
 
         cur.execute(f"UPDATE notifications set checked=1 where id in {tuple(notifIds)}")
-        notifs = []
 
     def menu():
         i = int(

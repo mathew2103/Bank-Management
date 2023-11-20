@@ -134,10 +134,10 @@ def revert_transaction(cur, db):
         cur.execute(f"DELETE from transactions where id={i}")
         # ! NOTIFY
         cur.execute(
-            f"INSERT INTO notifications (accNo, content) values ({receiver}, 'Transaction reverted! -{amt})"
+            f"INSERT INTO notifications (accNo, content) values ({receiver}, 'Transaction reverted! -{amt}')"
         )
         cur.execute(
-            f"INSERT INTO notifications (accNo, content) values ({sender}, 'Transaction reverted! +{amt})"
+            f"INSERT INTO notifications (accNo, content) values ({sender}, 'Transaction reverted! +{amt}')"
         )
 
         print("Transaction Reverted!")
