@@ -141,3 +141,24 @@ def revert_transaction(cur, db):
         )
 
         print("Transaction Reverted!")
+
+
+def addMoney(cur, db):
+    accNo2 = int(input("Enter recipient account number: ") or 0)
+    cur.execute(f"SELECT name, closed FROM accounts where accNo={accNo2}")
+    rec = cur.fetchone()
+    if rec == None:
+        print("Invalid account number!\n")
+        return
+    print("Recipient:", rec[0])
+
+    if rec[1] == 1:
+        print("This account is closed. You cannot transfer money to this account!")
+        return
+
+    m = float(input("Enter amount to transfer: "))
+    cur.execute(f"UPDATE accounts SET balance=balance+{m} where accNo={accNo2}")
+    cur.execute(
+        f"INSERT INTO notifications (accNo, content) values ({accNo2}, 'Added {m}')"
+    )
+    print(f"Successfully added {m} to {rec[0]}")

@@ -35,7 +35,7 @@ def adminPanel():
     print("-" * 20 + "ADMIN PANEL" + "-" * 20)
     aMenu = int(
         input(
-            "1. Update account details\n2. View All Customers\n3. Close Account\n4. View all transactions\n5. Revert Transaction\n6. Search Customer by Account Number\n(To go back to previous menu press enter)\nEnter option: "
+            "1. Update account details\n2. View All Customers\n3. Close Account\n4. View all transactions\n5. Revert Transaction\n6. Search Customer by Account Number\n7. Add Money\n(To go back to previous menu press enter)\nEnter option: "
         )
         or 0
     )
@@ -51,6 +51,8 @@ def adminPanel():
         revert_transaction(cur, db)
     elif aMenu == 6:
         searchcustomer(cur, db)
+    elif aMenu == 7:
+        addMoney(cur, db)
     else:
         return
     sleep(3)
