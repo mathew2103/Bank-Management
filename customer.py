@@ -22,7 +22,6 @@ def createAcc(cur, db):
     )
     cur.execute("SELECT accNo from accounts ORDER BY accNo DESC LIMIT 1")
     x = cur.fetchone()
-    print(x)
     print("Account Number: ", x[0])
     print("Account created successfully, please login")
     return
@@ -47,7 +46,6 @@ def login(cur, db):
 
     cur.execute(f"Select id,content from notifications where accNo={acc} and checked=0")
     notifs = cur.fetchall() or []
-    print(notifs)
     print(
         tabulate(
             [list(x)], ["Account Number", "Account Holder", "Balance"], numalign="left"
@@ -132,8 +130,6 @@ def login(cur, db):
         print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"]))
 
     def checkNotifs():
-        # notifs
-        print(tabulate(notifs, ["Notification\nID", "Content"]))
         notifIds = [0]
         for i in notifs:
             notifIds.append(i[0])

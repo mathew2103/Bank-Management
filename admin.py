@@ -105,9 +105,6 @@ def searchcustomer(cur, db):
 
 def revert_transaction(cur, db):
     print("-" * 20 + "REVERT TRANSACTION" + "-" * 20)
-    # cur.execute(f"SELECT * from transactions order by at desc")
-    # b = cur.fetchall()
-    # print(tabulate(b, ["ID", "Sender Acc", "Receiver Acc", "At", "Amount"]))
     i = int(input("Enter transaction id: ") or 0)
     cur.execute(f"SELECT * from transactions where id={i}")
     tr = cur.fetchone()
