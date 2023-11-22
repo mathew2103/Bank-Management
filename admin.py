@@ -5,8 +5,9 @@ from init import check_closed
 def updatecustdetails(cur, db):
     print("-" * 20 + "UPDATE ACCOUNT" + "-" * 20)
     accno = int(input("Enter Account Number: ") or 0)
-    cur.execute(f"SELECT * FROM accounts WHERE accno={accno}")
+    cur.execute(f"SELECT *,IF(closed, 'Yes', 'No') FROM accounts WHERE accno={accno}")
     x = cur.fetchone()
+    x = x[0:-2] + (x[-1],)
     print(
         tabulate(
             [list(x)],
@@ -17,6 +18,7 @@ def updatecustdetails(cur, db):
                 "Password",
                 "Security Question",
                 "Security Answer",
+                "Closed",
             ],
             tablefmt="github",
         )
@@ -34,8 +36,9 @@ def updatecustdetails(cur, db):
         print("Your security Question and Answer has been changed")
     else:
         revert_transaction
-    cur.execute(f"SELECT * FROM accounts WHERE accno={accno}")
+    cur.execute(f"SELECT *,IF(closed, 'Yes', 'No') FROM accounts WHERE accno={accno}")
     c = cur.fetchone()
+    c = c[0:-2] + (c[-1],)
     print(
         tabulate(
             [c],
@@ -46,6 +49,7 @@ def updatecustdetails(cur, db):
                 "Password",
                 "Security Question",
                 "Security Answer",
+                "Closed",
             ],
             tablefmt="github",
         )
@@ -91,8 +95,9 @@ def view_all_transactions(cur, db):
 def searchcustomer(cur, db):
     print("-" * 20 + "SEARCH CUSTOMERS" + "-" * 20)
     c = int(input("Enter account number: ") or 0)
-    cur.execute(f"SELECT * from ACCOUNTS where accNo={c}")
+    cur.execute(f"SELECT *,IF(closed,'Yes','No') from ACCOUNTS where accNo={c}")
     acc = cur.fetchone()
+    acc = acc[0:-1] + (acc[-1],)
     if acc == None:
         print("No account found")
         return
@@ -106,6 +111,7 @@ def searchcustomer(cur, db):
                 "Password",
                 "Security Question",
                 "Security Answer",
+                "Closed",
             ],
             tablefmt="github",
         )
@@ -140,7 +146,6 @@ def revert_transaction(cur, db):
         cur.execute(f"UPDATE accounts SET balance=balance-{amt} where accNo={receiver}")
         cur.execute(f"UPDATE accounts SET balance=balance+{amt} where accNo={sender}")
         cur.execute(f"DELETE from transactions where id={i}")
-        # ! NOTIFY
         cur.execute(
             f"INSERT INTO notifications (accNo, content) values ({receiver}, 'Transaction reverted! -{amt}')"
         )

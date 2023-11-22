@@ -48,7 +48,7 @@ def login(cur, db):
     notifs = cur.fetchall() or []
     print(
         tabulate(
-            [list(x)],
+            [list(x[0:3])],
             ["Account Number", "Account Holder", "Balance"],
             tablefmt="github",
         )
@@ -57,8 +57,8 @@ def login(cur, db):
     def changePass():
         cur.execute(f"SELECT secQues, secAns from accounts where accno={acc}")
         t = cur.fetchone()
-        print(t[0])
-        secans = input("Enter your security Answer")
+        print("Security Question:", t[0])
+        secans = input("Enter your security Answer: ")
         if secans != t[1]:
             print("incorrect security password")
             return
@@ -132,7 +132,9 @@ def login(cur, db):
         print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"], tablefmt="github"))
 
     def checkNotifs():
+        print(tabulate(notifs, ["Notification ID", "Content"], tablefmt="github"))
         notifIds = [0]
+
         for i in notifs:
             notifIds.append(i[0])
 

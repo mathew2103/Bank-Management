@@ -24,14 +24,17 @@ def custPanel():
     mainMenu()
 
 
-def adminPanel():
+def adminLogin():
     print("-" * 20 + "ADMIN LOGIN" + "-" * 20)
     adminLogin = input("Enter admin password: ")
 
     if adminLogin != adminPass:
         print("Wrong password!")
-        return
+        return False
+    return True
 
+
+def adminPanel():
     print("-" * 20 + "ADMIN PANEL" + "-" * 20)
     aMenu = int(
         input(
@@ -68,6 +71,8 @@ def mainMenu():
     if i == 1:
         custPanel()
     elif i == 2:
+        if adminLogin() == False:
+            return
         adminPanel()
     else:
         print("Invalid Input!\n")
