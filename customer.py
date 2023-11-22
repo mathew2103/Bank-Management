@@ -48,7 +48,9 @@ def login(cur, db):
     notifs = cur.fetchall() or []
     print(
         tabulate(
-            [list(x)], ["Account Number", "Account Holder", "Balance"], numalign="left"
+            [list(x)],
+            ["Account Number", "Account Holder", "Balance"],
+            tablefmt="github",
         )
     )
 
@@ -127,7 +129,7 @@ def login(cur, db):
             else:
                 l.append([i[0], i[3], i[1], f"+ {i[4]}"])
 
-        print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"]))
+        print(tabulate(l, ["ID", "AT", "FROM/TO", "Amount"], tablefmt="github"))
 
     def checkNotifs():
         notifIds = [0]

@@ -18,6 +18,7 @@ def updatecustdetails(cur, db):
                 "Security Question",
                 "Security Answer",
             ],
+            tablefmt="github",
         )
     )
     y = int(input("Menu- \n1. Name \n2. Security Question\nEnter:") or 0)
@@ -46,6 +47,7 @@ def updatecustdetails(cur, db):
                 "Security Question",
                 "Security Answer",
             ],
+            tablefmt="github",
         )
     )
 
@@ -54,7 +56,9 @@ def viewcust(cur, db):
     print("-" * 20 + "VIEW CUSTOMER DETAILS" + "-" * 20)
     cur.execute(f"SELECT accno,name,balance,IF(closed, 'Yes', 'No') FROM accounts ")
     d = cur.fetchall()
-    print(tabulate(d, ["Account Number", "Name", "Balance", "Closed"]))
+    print(
+        tabulate(d, ["Account Number", "Name", "Balance", "Closed"], tablefmt="github")
+    )
     return
 
 
@@ -76,7 +80,11 @@ def view_all_transactions(cur, db):
     print("-" * 20 + "CHECK TRANSACTIONS" + "-" * 20)
     cur.execute(f"SELECT * from transactions order by at desc")
     b = cur.fetchall()
-    print(tabulate(b, ["ID", "Sender Acc", "Receiver Acc", "At", "Amount"]))
+    print(
+        tabulate(
+            b, ["ID", "Sender Acc", "Receiver Acc", "At", "Amount"], tablefmt="github"
+        )
+    )
     return
 
 
@@ -99,6 +107,7 @@ def searchcustomer(cur, db):
                 "Security Question",
                 "Security Answer",
             ],
+            tablefmt="github",
         )
     )
 
@@ -112,7 +121,9 @@ def revert_transaction(cur, db):
     if tr == None:
         print("No transaction found")
         return
-    print(tabulate([tr], ["ID", "Sender", "Receiver", "At", "Amount"]))
+    print(
+        tabulate([tr], ["ID", "Sender", "Receiver", "At", "Amount"], tablefmt="github")
+    )
 
     amt = tr[4]
     sender = tr[1]
