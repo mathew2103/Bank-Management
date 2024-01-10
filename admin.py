@@ -34,8 +34,7 @@ def updatecustdetails(cur, db):
             f"UPDATE accounts SET secQues='{a}', secAns='{b}' WHERE accno={accno}"
         )
         print("Your security Question and Answer has been changed")
-    else:
-        revert_transaction
+
     cur.execute(f"SELECT *,IF(closed, 'Yes', 'No') FROM accounts WHERE accno={accno}")
     c = cur.fetchone()
     c = c[0:-2] + (c[-1],)
