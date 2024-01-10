@@ -124,7 +124,7 @@ def login(cur, db):
         l = []
 
         for i in tr:
-            if i[0] == acc:
+            if i[1] == acc:
                 l.append([i[0], i[3], i[2], f"- {i[4]}"])
             else:
                 l.append([i[0], i[3], i[1], f"+ {i[4]}"])
