@@ -80,6 +80,7 @@ def mainMenu():
 
 
 if cur == None:
+    print("Please check your sql credentials in init.py")
     pass
 else:
     mainMenu()

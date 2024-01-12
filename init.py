@@ -26,7 +26,7 @@ def initialize():
         print("Connected to SQL Successfully")
     except connector.Error as err:
         print("Error:", err)
-        return None
+        return (None, None)
 
     cur = db.cursor()
 
