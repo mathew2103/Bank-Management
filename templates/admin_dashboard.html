@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Admin Dashboard</h1>
+  <p>Total accounts: {{ total_accounts }}</p>
+  <p>Total transactions: {{ total_transactions }}</p>
+  <div class="cards">
+    <a class="card" href="/admin/customers">View Customers</a>
+    <a class="card" href="/admin/transactions">View Transactions</a>
+  </div>
+{% endblock %}

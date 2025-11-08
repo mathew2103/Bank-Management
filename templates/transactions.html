@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Transactions</h1>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Sender</th><th>Receiver</th><th>At</th><th>Amount</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t[0] }}</td>
+        <td>{{ t[1] }}</td>
+        <td>{{ t[2] }}</td>
+        <td>{{ t[3] }}</td>
+        <td>{{ t[4] }}</td>
+        <td>
+          <form method="post" action="/admin/transaction/revert/{{ t[0] }}" onsubmit="return confirm('Revert transaction?');">
+            <button type="submit">Revert</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

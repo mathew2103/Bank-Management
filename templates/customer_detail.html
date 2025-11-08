@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Account {{ acc[0] }} — {{ acc[1] }}</h1>
+  <p>Balance: {{ acc[2] }}</p>
+  <p>Closed: {{ acc[6] }}</p>
+
+  <h2>Update Name</h2>
+  <form method="post">
+    <input type="hidden" name="action" value="update_name">
+    <input type="text" name="name" value="{{ acc[1] }}">
+    <button type="submit">Save</button>
+  </form>
+
+  <h2>Security Question</h2>
+  <form method="post">
+    <input type="hidden" name="action" value="update_sec">
+    <input type="text" name="secQ" value="{{ acc[4] }}" placeholder="Security question"><br>
+    <input type="text" name="secA" value="{{ acc[5] }}" placeholder="Security answer"><br>
+    <button type="submit">Save</button>
+  </form>
+
+  <h2>Add Money</h2>
+  <form method="post">
+    <input type="hidden" name="action" value="add_money">
+    <input type="number" step="0.01" name="amount" placeholder="Amount">
+    <button type="submit">Add</button>
+  </form>
+
+  <h2>Close Account</h2>
+  <form method="post">
+    <input type="hidden" name="action" value="close">
+    <button type="submit">Close Account</button>
+  </form>
+
+{% endblock %}

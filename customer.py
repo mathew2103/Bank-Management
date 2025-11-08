@@ -78,7 +78,7 @@ def login(cur, db):
             print("Re-entered password did not match!")
 
     def transfer():
-        accNo2 = int(input("Enter recipient account number: ") or 0)
+        accNo2 = float(input("Enter recipient account number: ") or 0)
 
         if accNo2 == acc:
             print("You cannot send money to yourself!")

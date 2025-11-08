@@ -1,0 +1,9 @@
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; }
+.nav { background:#0b5; padding:10px; }
+.nav a{ color:#000; margin-right:8px; text-decoration:none }
+.container{ padding:20px }
+table{ width:100%; border-collapse:collapse }
+td,th{ border:1px solid #ddd; padding:8px }
+.flashes{ list-style:none; padding:0; }
+.cards{ display:flex; gap:12px }
+.card{ display:inline-block; padding:12px; background:#eee; border-radius:6px; text-decoration:none }

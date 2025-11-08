@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bank Admin</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="/admin">Dashboard</a> |
+      <a href="/admin/customers">Customers</a> |
+      <a href="/admin/transactions">Transactions</a>
+    </nav>
+    <main class="container">
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for m in messages %}
+              <li>{{ m }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
