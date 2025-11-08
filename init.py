@@ -1,11 +1,11 @@
 import mysql.connector as connector
 
 
-dbName = "project"
+dbName = "bank_project"
 credentials = {
     "user": "root",
     "host": "localhost",
-    "password": "password",
+    "password": "root",
 }
 
 tables = {
@@ -36,9 +36,9 @@ def initialize():
         if d[0] == dbName:
             break
     else:
-        cur.execute("CREATE DATABASE project")
-        print("Created project database")
-    cur.execute("USE project;")
+        cur.execute("CREATE DATABASE bank_project")
+        print("Created bank_project database")
+    cur.execute("USE bank_project;")
     print("Connected to database!")
 
     cur.execute("SHOW TABLES;")
