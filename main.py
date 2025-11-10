@@ -3,7 +3,7 @@ from customer import *
 from admin import *
 from time import sleep
 
-adminPass = "bank!"
+adminPass = "admin123"
 cur, db = initialize()
 
 

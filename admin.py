@@ -23,11 +23,11 @@ def updatecustdetails(cur, db):
             tablefmt="github",
         )
     )
-    y = int(input("Menu- \n1. Name \n2. Security Question\nEnter:") or 0)
-    if y == 1:
+    op = int(input("Menu- \n1. Name \n2. Security Question\nEnter:") or 0)
+    if op == 1:
         z = input("Enter New Name: ")
         cur.execute(f"UPDATE accounts SET name='{z}' WHERE accno={accno}")
-    elif y == 2:
+    elif op == 2:
         a = input("Enter New Security Question: ")
         b = input("Enter New Security Answer: ")
         cur.execute(

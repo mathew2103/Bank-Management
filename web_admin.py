@@ -1,10 +1,43 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from init import initialize, check_closed
+import os
 
 app = Flask(__name__)
 app.secret_key = "dev-secret"
 
+# Admin password can be set via environment variable ADMIN_PASSWORD
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
+
 cur, db = initialize()
+
+@app.before_request
+def require_admin_password():
+    # Require admin login for any /admin* route except the login/logout endpoints
+    path = request.path
+    if path.startswith('/admin'):
+        if path in ('/admin/login', '/admin/logout'):
+            return
+        if not session.get('admin_logged_in'):
+            return redirect(url_for('admin_login'))
+
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        pwd = request.form.get('password', '')
+        if pwd == ADMIN_PASSWORD:
+            session['admin_logged_in'] = True
+            flash('Logged in as admin.')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Invalid admin password.')
+            return redirect(url_for('admin_login'))
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    flash('Logged out.')
+    return redirect(url_for('admin_login'))
 
 @app.route('/')
 def index():

@@ -143,7 +143,8 @@ def login(cur, db):
     def menu():
         i = int(
             input(
-                f"\n\nMenu:\n1. Show notifications ({len(notifs)})\n2. Change Password\n3. Transfer Money\n4. Check Transactions\n(To go back to previous menu press enter)\nEnter option: "
+                f'''\n\nMenu:\n1. Show notifications ({len(notifs)})\n2. Change Password
+                3. Transfer Money\n4. Check Transactions\n(To go back to previous menu press enter)\nEnter option: '''
             )
             or 0
         )
